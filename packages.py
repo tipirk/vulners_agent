@@ -1,6 +1,7 @@
 from pprint import pprint
 from requests import post
 from distro import linux_distribution
+from platform import node
 import subprocess
 import json
 
@@ -36,17 +37,26 @@ def get_package_list(os_name):
 
 
 def get_os_info():
-    os_name = linux_distribution()[0]
-    os_version = linux_distribution()[1]
+    os_name = linux_distribution()[0].lower()
+    os_version = linux_distribution()[1].lower()
     return os_name, os_version
 
 
-package_list = get_package_list()
-os_name = get_os_info()[0]
-os_version = get_os_info()[1]
-data_dict = {'os': os_name, 'version': os_version, 'package': package_list}
+def get_hostname():
+    hostname = node().lower()
+    return hostname
 
-vulners_info = get_vuln(data_dict)
-pprint(vulners_info['data']['packages'])
-print(os_name)
-print(os_version)
+
+if __name__ == "__main__":
+
+    os_name, os_version = get_os_info()
+    package_list = get_package_list(os_name)
+    if package_list == []:
+        print('Getting package list was failed')
+    else:
+        package_list = get_package_list()
+        data_dict = {'os': os_name,
+                     'version': os_version,
+                     'package': package_list}
+        vulners_info = get_vuln(data_dict)
+        pprint(vulners_info['data']['packages'])
