@@ -30,7 +30,7 @@ def get_package_list(os_name):
         package_list = []
         for i in range(len(package_list_raw) - 1):
             if package_list_raw[i] != '':
-                package_list.append(package_list_raw[i])
+                package_list.append(package_list_raw[i][:-1])
     else:
         package_list = []
     return package_list
