@@ -54,7 +54,6 @@ if __name__ == "__main__":
     if package_list == []:
         print('Getting package list was failed')
     else:
-        package_list = get_package_list()
         data_dict = {'os': os_name,
                      'version': os_version,
                      'package': package_list}
